@@ -54,6 +54,9 @@ public class Funcionario {
 		this.salario = salario;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 	
 }

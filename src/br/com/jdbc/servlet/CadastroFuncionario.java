@@ -1,6 +1,7 @@
 package br.com.jdbc.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import br.com.jdbc.dao.ConexaoBD;
 import br.com.jdbc.dao.FuncionarioDAO;
 import br.com.jdbc.entity.Funcionario;
 
@@ -34,19 +35,22 @@ public class CadastroFuncionario extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("passando pelo método post");
+		Connection conn = ConexaoBD.getConnection();
 		FuncionarioDAO funcDAO = new FuncionarioDAO();
 		
 		try {
 			Funcionario func = new Funcionario();
 			func.setNome(req.getParameter("nome"));
 			func.setDescricao_cargo(req.getParameter("descricao_cargo"));
-			func.setSetor(req.getParameter("setor"));
+			func.setSetor("nove");
 			func.setCargo(12);
 			func.setSalario(144022);
 			
-			funcDAO.cadastrarFuncionario(func);
+			funcDAO.inserir(conn,func);
+			System.out.println("oi");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
 		
 		RequestDispatcher rd = req.getServletContext().getRequestDispatcher("/index.jsp");
